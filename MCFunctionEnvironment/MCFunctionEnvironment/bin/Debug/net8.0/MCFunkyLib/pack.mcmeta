@@ -1,0 +1,6 @@
+{
+  "pack": {
+    "description": "A standard library for MCFunky programs.",
+    "pack_format": 48
+  }
+}

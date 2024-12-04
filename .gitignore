@@ -1,0 +1,11 @@
+*.exe
+*.dll
+*.deps.json
+*.pdb
+*.runtimeconfig.json
+mc/
+obj/
+.vs/
+
+# personal projects with this
+~*/

@@ -1,0 +1,1 @@
+$data modify storage mcfunky:string unescape_result set value "$(s1)"

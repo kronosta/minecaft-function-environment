@@ -1,0 +1,1 @@
+FOR /L %%G IN (1,1,20) DO FOR /L %%H IN (1,1,%%G) DO ECHO $$(c%%H) >> exec%%G.mcfunction
