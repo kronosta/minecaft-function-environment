@@ -108,7 +108,11 @@ The actions are as follows:
     an error message and exit with code 2.
 - `control`
   - Gives up the console to the Minecraft server to allow the user to initiate Minecraft commands and see the raw output.
-    There's still a lot of problems with this system so you should probably not code anything to run after `say control`
+    There's still a lot of problems with this system so you should probably not code anything to run after `say control`.
+    If you're willing to deal with some potential issues, in storage `mcfunky:core` the field `endcontrol` gets set to
+    1 after the control is finished, but this isn't exactly dependable since commands given to the minecraft server
+    won't run until the other currently processing commands are done (those commands might be checking endcontrol,
+    thus getting the wrong value).
 
 A lot of times you may want to do these with dynamic arguments which the /say command doesn't normally support.
 However with function macros and string concatenation (see Standard library functions section) this can be done
@@ -185,3 +189,6 @@ fine, and you don't even need to define a dynamic say function since the standar
     - `v`, a unique name for this foreach loop, for when multiple run at once
     - `c`, the command to run. In this command, backslashes and double quotes should be escaped
       as part of the string (which will look like a double escape in your code). 
+- `mcfunky:wait_for_endcontrol`
+   - Is supposed to run the command stored in storage `mcfunky:core` at `endcontrol_wait_exec` but is currently
+     really buggy and doesn't seem to actually run the function.
