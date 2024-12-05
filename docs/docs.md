@@ -33,6 +33,7 @@ Also, currently the code has a custom server.properties file written in a string
 used and it will be the usual default instead.
 
 # Command line usage
+```
 MCFunctionEnvironment -f<function> -d<dir> [-m<macroparams>] [-p]
     [-a<action>]
 
@@ -50,6 +51,7 @@ speed up start times.
 The -a flag adds a few special actions. -arun is how it normally behaves without the -a flag.
 -areset deletes the world even if it is persistent.
 -aresetrun deletes the world and then runs your program with a new world.
+```
 
 # Assorted behavior
 - Before your program starts, in the storage `mcfunky:core`, `startup` is set to 1.
