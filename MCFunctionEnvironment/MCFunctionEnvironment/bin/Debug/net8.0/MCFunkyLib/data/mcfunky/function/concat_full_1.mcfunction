@@ -20,7 +20,7 @@ setblock 29999986 314 482035 minecraft:chain_command_block[conditional=false,\
 setblock 29999987 311 482035 minecraft:stone
 setblock 29999987 312 482035 minecraft:oak_sign
 data modify block 29999987 312 482035 front_text.messages[0] set value \
-    '{"nbt":"to_concat","storage":"mcfunky:string","interpret":true}'
+    '{"nbt":"to_concat[]","storage":"mcfunky:string","interpret":false,"separator":""}'
 data modify entity e31a3cea-06d3-45ca-bd32-5d00f71c0b66 CustomName set from \
     block 29999987 312 482035 front_text.messages[0]
 data modify block 29999987 314 482035 Command set value "enchant \

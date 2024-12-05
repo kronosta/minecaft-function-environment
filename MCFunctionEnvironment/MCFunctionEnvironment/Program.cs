@@ -246,12 +246,19 @@ The -a flag adds a few special actions. -arun is how it normally behaves without
         while (true)
         {
             line = mcout.ReadLine();
-            if (Regex.IsMatch(line ?? "", "\\[..:..:..\\] \\[Server thread\\/INFO\\]: \\[Not Secure\\] \\[Server\\] .*"))
+            bool serverMatch = Regex.IsMatch(line ?? "", "\\[..:..:..\\] \\[Server thread\\/INFO\\]: \\[Not Secure\\] \\[Server\\] .*");
+            bool commandBlockMatch = Regex.IsMatch(line ?? "", "\\[..:..:..\\] \\[Server thread\\/INFO\\]: \\[Not Secure\\] \\[@\\] .*");
+            if (serverMatch || commandBlockMatch)
             {
-                string directPrinted = line.Substring(line.IndexOf("ver] ") + 5);
-                string[] parts = directPrinted.Split('|');
+                string? directPrinted;
+                if (serverMatch)
+                    directPrinted = line?.Substring(line.IndexOf("ver] ") + 5);
+                else
+                    directPrinted = line?.Substring(line.IndexOf(" [@] ") + 5);
+                string[]? parts = directPrinted?.Split('|');
                 byte parsedOut;
                 int parsedInt;
+                if (parts == null) continue;
                 if (parts.Length < 1) continue;
                 switch (parts[0])
                 {
