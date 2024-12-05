@@ -59,7 +59,9 @@ The -a flag adds a few special actions. -arun is how it normally behaves without
   requires functions to run later, so with only one function it needs to know what to do separately
   on each section. The state might not be constantly incrementing, looping or conditionals could
   make this more complicated but it should always be possible to keep track by dividing
-  on conditional and loop boundaries and reinvokations/waits.
+  on conditional and loop boundaries and reinvokations/waits. See the `test-project:io` function
+  [here](MCFunctionEnvironment/MCFunctionEnvironment/bin/Debug/net8.0/test-project/test-project/function/io.mcfunction)
+  for a basic example of this strategy.
 
 # MCFunction external commands
 One of the few ways an MCFunction can get arbitrary data outputted to the server console is the /say command,
