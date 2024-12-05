@@ -242,6 +242,14 @@ The -a flag adds a few special actions. -arun is how it normally behaves without
         
         mcin.WriteLine("reload");
         mcin.WriteLine("data modify storage mcfunky:core startup set value 1");
+
+        while (true)
+        {
+            line = mcout.ReadLine();
+            if (Regex.IsMatch(line ?? "", "\\[..:..:..\\] \\[Server thread\\/INFO\\]: \\[Not Secure\\] \\[Server\\] @@@Loaded"))
+                break;
+        }
+
         mcin.WriteLine($"function {functionLocation}{(functionMacroParams != null ? " " : "")}{functionMacroParams ?? ""}");
         while (true)
         {
@@ -298,6 +306,31 @@ The -a flag adds a few special actions. -arun is how it normally behaves without
                     case "inb":
                         mcin.WriteLine($"data modify storage mcfunky:io byte_read set value {Console.OpenStandardInput().ReadByte()}");
                         break;
+                    case "control":
+                        Thread input = new Thread(() =>
+                        {
+                            while (true)
+                            {
+                                string? line = Console.ReadLine();
+                                if (line == null || line == ".") break;
+                                mcin.WriteLine(line);
+                            }
+                        });
+                        Thread output = new Thread(() =>
+                        {
+                            while (input.IsAlive)
+                            {
+                                string? line = mcout.ReadLine();
+                                if (line != null)
+                                    Console.WriteLine(line);
+                            }
+                        });
+                        input.Start();
+                        output.Start();
+                        while (input.IsAlive) { }
+                        mcin.WriteLine("data modify storage mcfunky:core endcontrol set value 1");
+                        break;
+
                     case "exit":
                         mcin.WriteLine("stop");
                         if (parts.Length == 1)

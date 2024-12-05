@@ -106,6 +106,9 @@ The actions are as follows:
   - Exits the Minecraft server and the MCFunction environment. If an argument is given the exit code is the argument,
     otherwise the exit code is 0. If the argument is present and invalid the program will still exit but will show
     an error message and exit with code 2.
+- `control`
+  - Gives up the console to the Minecraft server to allow the user to initiate Minecraft commands and see the raw output.
+    There's still a lot of problems with this system so you should probably not code anything to run after `say control`
 
 A lot of times you may want to do these with dynamic arguments which the /say command doesn't normally support.
 However with function macros and string concatenation (see Standard library functions section) this can be done
@@ -159,3 +162,26 @@ fine, and you don't even need to define a dynamic say function since the standar
 - `mcfunky:concat[2-20]s_sep`
   - Takes in multiple macro parameters called `s[1-20]`, concatenates them with single quotes between them,
     except that single quotes and backslashes won't work in the components.
+- `mcfunky:repeat`
+  - Takes in macro parameters and runs a bounded for loop. The counter is accessible
+    in scoreboard value `#Repeat.Counter.[v] MCFunky.Vars`
+    - `v`, a unique alphanumeric name for the loop, for when multiple run at the same time. 
+      Names starting with `XX` shouldn't be used since they are used internally
+    - `n`, the number of times to run the loop
+    - `c`, a command to run. In this command, backslashes and double quotes should be escaped
+      as part of the string (which will look like a double escape in your code). This is
+      required to allow it to be `mcfunky:exec`ed indirectly, since passing them as a macro parameter
+      to a function would break the escapes, and functions cannot be in a loop without calling
+      other functions or themselves
+- `mcfunky:foreach`
+  - Takes in macro parameters and runs a for-each loop throughout an array. Internally this uses
+    a repeat command with a `mcfunky:exec3` as its command, and `v` as `XXForEach0[foreach-supplied v]`. This
+    means you can obtain the index at scoreboard value `#Repeat.Counter.XXForEach0[v] MCFunky.Vars`.
+    - `a`, the location of the array as one of:
+      - `storage [storage namespaced ID] [NBT path]`
+      - `entity [single entity target selector or UUID] [NBT path]`
+      - `block [XYZ coordinates of the block] [NBT path]`
+    - `d`, the location to put the elements of the array, in the same format as `a`
+    - `v`, a unique name for this foreach loop, for when multiple run at once
+    - `c`, the command to run. In this command, backslashes and double quotes should be escaped
+      as part of the string (which will look like a double escape in your code). 
